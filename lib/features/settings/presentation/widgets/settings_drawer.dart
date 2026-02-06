@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
 import '../bloc/settings_state.dart';
@@ -41,6 +42,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
@@ -68,50 +70,50 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                     horizontal: 16,
                   ),
                   child: Text(
-                    'MEL calculator',
+                    l10n.appTitle,
                     style: textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
                 ),
                 const Divider(height: 1, thickness: 1),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text('Customize categories'),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(l10n.customizeCategories),
                 ),
                 _buildCategoryField(
                   context,
-                  'Category A',
+                  l10n.categoryA,
                   _categoryAController,
                   'CategoryADalay',
                 ),
                 _buildCategoryField(
                   context,
-                  'Category B',
+                  l10n.categoryB,
                   _categoryBController,
                   'CategoryBDalay',
                 ),
                 _buildCategoryField(
                   context,
-                  'Category C',
+                  l10n.categoryC,
                   _categoryCController,
                   'CategoryCDalay',
                 ),
                 _buildCategoryField(
                   context,
-                  'Category D',
+                  l10n.categoryD,
                   _categoryDController,
                   'CategoryDDalay',
                 ),
                 const Divider(height: 1, thickness: 1),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text('Time format'),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(l10n.timeFormat),
                 ),
                 Row(
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: const Text('12'),
+                        title: Text(l10n.format12),
                         leading: Radio<TimeType>(
                           value: TimeType.t12,
                           groupValue: timeType,
@@ -125,7 +127,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                     ),
                     Expanded(
                       child: ListTile(
-                        title: const Text('24'),
+                        title: Text(l10n.format24),
                         leading: Radio<TimeType>(
                           value: TimeType.t24,
                           groupValue: timeType,
@@ -152,27 +154,25 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                             );
                       }
                     },
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
-                        child: Text('System Theme'),
+                        child: Text(l10n.systemTheme),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
-                        child: Text('Light Theme'),
+                        child: Text(l10n.lightTheme),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,
-                        child: Text('Dark Theme'),
+                        child: Text(l10n.darkTheme),
                       ),
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "Many thanks to my friend Dmitry Gordeev for his ideas, support and encouragement.",
-                  ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(l10n.thanksMessage),
                 ),
               ],
             ),
@@ -194,6 +194,8 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
     TextEditingController controller,
     String categoryKey,
   ) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ListTile(
       trailing: IconButton(
         icon: const Icon(Icons.save),
@@ -204,7 +206,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
               );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('$label saved'),
+              content: Text(l10n.categorySaved(label)),
               duration: const Duration(seconds: 1),
             ),
           );

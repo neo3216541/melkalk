@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/months.dart';
 import '../../../../core/di/injection_container.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/bloc/settings_event.dart';
 import '../../../settings/presentation/bloc/settings_state.dart';
@@ -52,7 +53,7 @@ class MainScreenContent extends StatelessWidget {
         drawer: const SettingsDrawer(),
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('MEL calculator'),
+          title: Text(AppLocalizations.of(context)!.appTitle),
         ),
         body: SafeArea(
           child: SizedBox.expand(
@@ -106,6 +107,8 @@ class MainScreenContent extends StatelessWidget {
   ) {
     final color = Theme.of(context).scaffoldBackgroundColor;
     final newFormat = DateFormat(timeFormat);
+    final l10n = AppLocalizations.of(context)!;
+    final monthStrings = getMonthStrings(context);
 
     return Stack(
       children: [
@@ -137,7 +140,10 @@ class MainScreenContent extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Category ${category.name} (${category.delayDays} days)",
+                        l10n.categoryWithDays(
+                          category.name,
+                          category.delayDays,
+                        ),
                       ),
                     ],
                   ),
@@ -155,9 +161,9 @@ class MainScreenContent extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
             ),
-            child: const Text(
-              'Aircraft on ground',
-              style: TextStyle(fontSize: 12),
+            child: Text(
+              l10n.aircraftOnGround,
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ),
@@ -167,6 +173,7 @@ class MainScreenContent extends StatelessWidget {
 
   Widget _buildInfoCard(BuildContext context) {
     final color = Theme.of(context).scaffoldBackgroundColor;
+    final l10n = AppLocalizations.of(context)!;
 
     return Stack(
       children: [
@@ -181,12 +188,12 @@ class MainScreenContent extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: const Center(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Calculates the UTC dates from today for ICAO MEL limitations",
+                  l10n.infoDescription,
                 ),
               ],
             ),
@@ -201,9 +208,9 @@ class MainScreenContent extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
             ),
-            child: const Text(
-              'Info',
-              style: TextStyle(fontSize: 12),
+            child: Text(
+              l10n.info,
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ),
