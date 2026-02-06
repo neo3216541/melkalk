@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../core/services/yandex_interstitial_ad_service.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
@@ -88,7 +90,9 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
     final key = locale.countryCode != null && locale.countryCode!.isNotEmpty
         ? '${locale.languageCode}_${locale.countryCode}'
         : locale.languageCode;
-    return languageNames[key] ?? languageNames[locale.languageCode] ?? locale.languageCode;
+    return languageNames[key] ??
+        languageNames[locale.languageCode] ??
+        locale.languageCode;
   }
 
   @override
@@ -127,9 +131,8 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
             _categoryDController.text = settings.categoryDDelay.toString();
           }
 
-          TimeType timeType = settings.timeFormat == 'jm'
-              ? TimeType.t12
-              : TimeType.t24;
+          TimeType timeType =
+              settings.timeFormat == 'jm' ? TimeType.t12 : TimeType.t24;
 
           return Drawer(
             child: ListView(
@@ -295,17 +298,29 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
     return ListTile(
       trailing: IconButton(
         icon: const Icon(Icons.save),
-        onPressed: () {
+        onPressed: () async {
           final value = int.tryParse(controller.text) ?? 0;
           context.read<SettingsBloc>().add(
                 UpdateCategoryDelayEvent(categoryKey, value),
               );
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.categorySaved(label)),
-              duration: const Duration(seconds: 1),
-            ),
-          );
+
+          // Показываем межстраничную рекламу
+          final adService = sl<YandexInterstitialAdService>();
+          final adShown = await adService.showAd();
+
+          if (!adShown) {
+            debugPrint('⚠️ Ad not shown, loading new ad');
+            adService.loadAd();
+          }
+
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(l10n.categorySaved(label)),
+                duration: const Duration(seconds: 1),
+              ),
+            );
+          }
         },
       ),
       title: TextFormField(

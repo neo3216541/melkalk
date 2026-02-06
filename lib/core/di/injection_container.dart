@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/yandex_interstitial_ad_service.dart';
 import '../../features/mel_calculator/domain/usecases/calculate_mel_dates.dart';
 import '../../features/mel_calculator/presentation/bloc/mel_calculator_bloc.dart';
 import '../../features/settings/data/datasources/settings_local_datasource.dart';
@@ -15,6 +16,9 @@ import '../../features/settings/presentation/bloc/settings_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Services
+  sl.registerLazySingleton(() => YandexInterstitialAdService());
+
   // BLoCs
   sl.registerFactory(
     () => SettingsBloc(

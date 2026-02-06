@@ -14,13 +14,15 @@
 4. **Инициализация SDK**:
    - Добавлен вызов `MobileAds.initialize()` в `main.dart`
 
-5. **Создан виджет баннерной рекламы**:
-   - `lib/features/mel_calculator/presentation/widgets/yandex_banner_ad.dart`
-   - Использует sticky banner (закрепленный внизу экрана)
-   - Автоматически подстраивается под ширину экрана
+5. **Создан сервис межстраничной рекламы**:
+   - `lib/core/services/yandex_interstitial_ad_service.dart`
+   - Управляет загрузкой и показом полноэкранной рекламы
+   - Автоматически предзагружает следующую рекламу после показа
 
-6. **Интегрирован баннер на главный экран**:
-   - Баннер отображается внизу экрана в MainScreen
+6. **Интегрирована межстраничная реклама**:
+   - Реклама показывается при нажатии кнопки "Сохранить" в настройках
+   - Автоматическая предзагрузка при запуске приложения
+   - Автоматическая перезагрузка после показа
 
 ## Что нужно сделать дальше
 
@@ -30,16 +32,25 @@
 2. Зарегистрируйте ваше приложение
 3. Создайте рекламные блоки (Ad Units) для разных форматов
 
-### 2. Замените тестовый Block ID на реальный
+### 2. Замените тестовые Block ID на реальные
 
+#### Баннерная реклама
 В файле `lib/features/mel_calculator/presentation/widgets/yandex_banner_ad.dart`:
 
 ```dart
 // Замените эту строку:
-const adUnitId = 'demo-banner-yandex';
+const adUnitId = 'R-M-2196377-1'; // Ваш текущий Block ID
+```
+
+#### Межстраничная реклама
+В файле `lib/core/services/yandex_interstitial_ad_service.dart`:
+
+```dart
+// Замените эту строку:
+static const String _adUnitId = 'demo-interstitial-yandex';
 
 // На ваш реальный Block ID из Яндекс Рекламной сети:
-const adUnitId = 'R-M-XXXXXX-X'; // Ваш Block ID
+static const String _adUnitId = 'R-M-XXXXXX-X'; // Ваш Block ID для Interstitial
 ```
 
 ### 3. Доступные форматы рекламы

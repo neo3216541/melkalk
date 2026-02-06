@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:yandex_mobileads/mobile_ads.dart';
 import 'core/di/injection_container.dart' as di;
 import 'core/router/app_router.dart';
+import 'core/services/yandex_interstitial_ad_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/bloc/settings_event.dart';
@@ -17,6 +18,10 @@ void main() async {
   MobileAds.initialize();
 
   await di.init();
+
+  // Предзагружаем межстраничную рекламу
+  di.sl<YandexInterstitialAdService>().loadAd();
+
   runApp(const MyApp());
 }
 
