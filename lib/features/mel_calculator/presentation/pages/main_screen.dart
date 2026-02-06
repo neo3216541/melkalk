@@ -10,6 +10,7 @@ import '../../../settings/presentation/widgets/settings_drawer.dart';
 import '../bloc/mel_calculator_bloc.dart';
 import '../bloc/mel_calculator_event.dart';
 import '../bloc/mel_calculator_state.dart';
+import '../widgets/yandex_banner_ad.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -66,44 +67,50 @@ class MainScreenContent extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.appTitle),
         ),
         body: SafeArea(
-          child: SizedBox.expand(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        BlocBuilder<SettingsBloc, SettingsState>(
-                          builder: (context, settingsState) {
-                            if (settingsState is SettingsLoaded) {
-                              return BlocBuilder<MelCalculatorBloc,
-                                  MelCalculatorState>(
-                                builder: (context, melState) {
-                                  if (melState is MelCalculatorLoaded) {
-                                    return _buildDataCard(
-                                      context,
-                                      melState.categories,
-                                      settingsState.settings.timeFormat,
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
-                                },
-                              );
-                            }
-                            return const CircularProgressIndicator();
-                          },
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocBuilder<SettingsBloc, SettingsState>(
+                              builder: (context, settingsState) {
+                                if (settingsState is SettingsLoaded) {
+                                  return BlocBuilder<MelCalculatorBloc,
+                                      MelCalculatorState>(
+                                    builder: (context, melState) {
+                                      if (melState is MelCalculatorLoaded) {
+                                        return _buildDataCard(
+                                          context,
+                                          melState.categories,
+                                          settingsState.settings.timeFormat,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  );
+                                }
+                                return const CircularProgressIndicator();
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            _buildInfoCard(context),
+                          ],
                         ),
-                        const SizedBox(height: 10),
-                        _buildInfoCard(context),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              // Баннерная реклама внизу экрана
+              const YandexBannerAd(),
+            ],
           ),
         ),
       ),
