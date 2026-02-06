@@ -15,7 +15,7 @@ class YandexInterstitialAdService {
   // Block ID для межстраничной рекламы из Яндекс Рекламной сети
   // Временно используем тестовый ID, замените на реальный после создания блока
   static const String _adUnitId =
-      'demo-interstitial-yandex'; // TODO: Заменить на R-M-2196377-X
+      'R-M-2196377-2'; // TODO: Заменить на R-M-2196377-X
 
   /// Загружает межстраничную рекламу
   Future<void> loadAd() async {
