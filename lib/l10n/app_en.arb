@@ -15,6 +15,7 @@
   "systemTheme": "System Theme",
   "lightTheme": "Light Theme",
   "darkTheme": "Dark Theme",
+  "language": "Language",
   "categorySaved": "{category} saved",
   "thanksMessage": "Many thanks to my friend Dmitry Gordeev for his ideas, support and encouragement.",
   "categoryWithDays": "Category {name} ({days} days)",

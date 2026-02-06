@@ -25,9 +25,11 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           ThemeMode themeMode = ThemeMode.dark;
+          Locale locale = const Locale('en');
 
           if (state is SettingsLoaded) {
             themeMode = state.settings.themeMode;
+            locale = state.settings.locale;
           }
 
           return MaterialApp.router(
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme(),
             darkTheme: AppTheme.darkTheme(),
             themeMode: themeMode,
+            locale: locale,
             routerConfig: AppRouter.router,
             localizationsDelegates: const [
               AppLocalizations.delegate,

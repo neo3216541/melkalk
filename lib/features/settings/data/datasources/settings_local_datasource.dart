@@ -7,6 +7,7 @@ abstract class SettingsLocalDataSource {
   Future<void> updateThemeMode(ThemeMode themeMode);
   Future<void> updateCategoryDelay(String category, int value);
   Future<void> updateTimeFormat(String format);
+  Future<void> updateLocale(Locale locale);
 }
 
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
@@ -23,6 +24,7 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
       categoryCDelay: sharedPreferences.getInt('CategoryCDalay'),
       categoryDDelay: sharedPreferences.getInt('CategoryDDalay'),
       timeFormat: sharedPreferences.getString('format'),
+      localeString: sharedPreferences.getString('locale'),
     );
   }
 
@@ -40,5 +42,11 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   @override
   Future<void> updateTimeFormat(String format) async {
     await sharedPreferences.setString('format', format);
+  }
+
+  @override
+  Future<void> updateLocale(Locale locale) async {
+    final localeString = AppSettingsModel.localeToString(locale);
+    await sharedPreferences.setString('locale', localeString);
   }
 }

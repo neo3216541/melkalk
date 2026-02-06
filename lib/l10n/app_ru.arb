@@ -15,6 +15,7 @@
   "systemTheme": "Системная тема",
   "lightTheme": "Светлая тема",
   "darkTheme": "Тёмная тема",
+  "language": "Язык",
   "categorySaved": "{category} сохранена",
   "thanksMessage": "Большое спасибо моему другу Дмитрию Гордееву за идеи, поддержку и ободрение.",
   "categoryWithDays": "Категория {name} ({days} дней)",
