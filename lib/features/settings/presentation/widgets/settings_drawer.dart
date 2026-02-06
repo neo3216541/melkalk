@@ -304,14 +304,9 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                 UpdateCategoryDelayEvent(categoryKey, value),
               );
 
-          // Показываем межстраничную рекламу
+          // Увеличиваем счётчик и показываем рекламу если нужно
           final adService = sl<YandexInterstitialAdService>();
-          final adShown = await adService.showAd();
-
-          if (!adShown) {
-            debugPrint('⚠️ Ad not shown, loading new ad');
-            adService.loadAd();
-          }
+          await adService.onSaveAction();
 
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(

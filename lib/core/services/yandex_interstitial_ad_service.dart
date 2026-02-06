@@ -12,10 +12,31 @@ class YandexInterstitialAdService {
   InterstitialAdLoader? _adLoader;
   bool _isAdLoading = false;
 
+  // Счётчик сохранений
+  int _saveCounter = 0;
+  static const int _savesBeforeAd = 5; // Показывать рекламу каждые 5 сохранений
+
   // Block ID для межстраничной рекламы из Яндекс Рекламной сети
   // Временно используем тестовый ID, замените на реальный после создания блока
   static const String _adUnitId =
       'R-M-2196377-2'; // TODO: Заменить на R-M-2196377-X
+
+  /// Увеличивает счётчик сохранений и показывает рекламу если нужно
+  /// Возвращает true если реклама была показана
+  Future<bool> onSaveAction() async {
+    _saveCounter++;
+    debugPrint('💾 Save counter: $_saveCounter/$_savesBeforeAd');
+
+    if (_saveCounter >= _savesBeforeAd) {
+      debugPrint('🎯 Reached $_savesBeforeAd saves, showing ad...');
+      _saveCounter = 0; // Сбрасываем счётчик
+      return await showAd();
+    }
+
+    debugPrint(
+        '⏭️ Skipping ad, need ${_savesBeforeAd - _saveCounter} more saves');
+    return false;
+  }
 
   /// Загружает межстраничную рекламу
   Future<void> loadAd() async {
@@ -91,6 +112,8 @@ class YandexInterstitialAdService {
   Future<bool> showAd() async {
     if (_interstitialAd == null) {
       debugPrint('⚠️ Interstitial: Ad not loaded, cannot show');
+      // Загружаем рекламу для следующего раза
+      loadAd();
       return false;
     }
 
@@ -108,6 +131,9 @@ class YandexInterstitialAdService {
   /// Проверяет, загружена ли реклама
   bool get isAdLoaded => _interstitialAd != null;
 
+  /// Возвращает текущий счётчик сохранений
+  int get saveCounter => _saveCounter;
+
   /// Освобождает ресурсы
   void dispose() {
     debugPrint('🔴 Interstitial: Disposing ad');
@@ -115,5 +141,6 @@ class YandexInterstitialAdService {
     _interstitialAd = null;
     _adLoader = null;
     _isAdLoading = false;
+    _saveCounter = 0;
   }
 }
