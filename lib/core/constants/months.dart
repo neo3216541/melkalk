@@ -1,15 +1,21 @@
-const List<String> monthStrings = [
-  '',
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import 'package:flutter/widgets.dart';
+import '../../l10n/app_localizations.dart';
+
+List<String> getMonthStrings(BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
+  return [
+    '',
+    l10n.january,
+    l10n.february,
+    l10n.march,
+    l10n.april,
+    l10n.may,
+    l10n.june,
+    l10n.july,
+    l10n.august,
+    l10n.september,
+    l10n.october,
+    l10n.november,
+    l10n.december,
+  ];
+}

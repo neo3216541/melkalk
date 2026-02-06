@@ -36,6 +36,7 @@ lib/generated_plugin_registrant.dart
 
 # Generated localization files
 lib/src/localization/app_localizations*.dart
+lib/l10n/app_localizations*.dart
 
 # Symbolication related
 app.*.symbols
