@@ -5,7 +5,6 @@ import '../../../../core/constants/months.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../settings/presentation/bloc/settings_event.dart';
 import '../../../settings/presentation/bloc/settings_state.dart';
 import '../../../settings/presentation/widgets/settings_drawer.dart';
 import '../bloc/mel_calculator_bloc.dart';
@@ -20,10 +19,21 @@ class MainScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => sl<SettingsBloc>()..add(LoadSettings()),
-        ),
-        BlocProvider(
-          create: (_) => sl<MelCalculatorBloc>(),
+          create: (context) {
+            final bloc = sl<MelCalculatorBloc>();
+            final settingsState = context.read<SettingsBloc>().state;
+            if (settingsState is SettingsLoaded) {
+              bloc.add(
+                CalculateMelDatesEvent(
+                  categoryADelay: settingsState.settings.categoryADelay,
+                  categoryBDelay: settingsState.settings.categoryBDelay,
+                  categoryCDelay: settingsState.settings.categoryCDelay,
+                  categoryDDelay: settingsState.settings.categoryDDelay,
+                ),
+              );
+            }
+            return bloc;
+          },
         ),
       ],
       child: const MainScreenContent(),
