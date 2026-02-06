@@ -20,6 +20,77 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
   late TextEditingController _categoryCController;
   late TextEditingController _categoryDController;
 
+  static const List<Locale> _supportedLocales = [
+    Locale('en'),
+    Locale('de'),
+    Locale('es'),
+    Locale('fr'),
+    Locale('it'),
+    Locale('pt'),
+    Locale('pt', 'BR'),
+    Locale('ru'),
+    Locale('uk'),
+    Locale('zh'),
+    Locale('zh', 'TW'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('ar'),
+    Locale('nl'),
+    Locale('pl'),
+    Locale('tr'),
+    Locale('sv'),
+    Locale('da'),
+    Locale('no'),
+    Locale('fi'),
+    Locale('cs'),
+    Locale('hu'),
+    Locale('ro'),
+    Locale('el'),
+    Locale('he'),
+    Locale('th'),
+    Locale('vi'),
+    Locale('id'),
+    Locale('hi'),
+  ];
+
+  static String _getLanguageName(Locale locale) {
+    final Map<String, String> languageNames = {
+      'en': 'English',
+      'de': 'Deutsch',
+      'es': 'Español',
+      'fr': 'Français',
+      'it': 'Italiano',
+      'pt': 'Português',
+      'ru': 'Русский',
+      'uk': 'Українська',
+      'zh': '中文',
+      'ja': '日本語',
+      'ko': '한국어',
+      'ar': 'العربية',
+      'nl': 'Nederlands',
+      'pl': 'Polski',
+      'tr': 'Türkçe',
+      'sv': 'Svenska',
+      'da': 'Dansk',
+      'no': 'Norsk',
+      'fi': 'Suomi',
+      'cs': 'Čeština',
+      'hu': 'Magyar',
+      'ro': 'Română',
+      'el': 'Ελληνικά',
+      'he': 'עברית',
+      'th': 'ไทย',
+      'vi': 'Tiếng Việt',
+      'id': 'Bahasa Indonesia',
+      'hi': 'हिन्दी',
+    };
+
+    final key = locale.countryCode != null && locale.countryCode!.isNotEmpty
+        ? '${locale.languageCode}_${locale.countryCode}'
+        : locale.languageCode;
+    return languageNames[key] ?? languageNames[locale.languageCode] ?? locale.languageCode;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -140,6 +211,31 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                       ),
                     ),
                   ],
+                ),
+                const Divider(height: 1, thickness: 1),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(l10n.language),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: DropdownButton<Locale>(
+                    value: settings.locale,
+                    isExpanded: true,
+                    onChanged: (Locale? newLocale) {
+                      if (newLocale != null) {
+                        context.read<SettingsBloc>().add(
+                              UpdateLocaleEvent(newLocale),
+                            );
+                      }
+                    },
+                    items: _supportedLocales.map((locale) {
+                      return DropdownMenuItem(
+                        value: locale,
+                        child: Text(_getLanguageName(locale)),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 const Divider(height: 1, thickness: 1),
                 Padding(

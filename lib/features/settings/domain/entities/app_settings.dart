@@ -8,6 +8,7 @@ class AppSettings extends Equatable {
   final int categoryCDelay;
   final int categoryDDelay;
   final String timeFormat;
+  final Locale locale;
 
   const AppSettings({
     required this.themeMode,
@@ -16,6 +17,7 @@ class AppSettings extends Equatable {
     required this.categoryCDelay,
     required this.categoryDDelay,
     required this.timeFormat,
+    required this.locale,
   });
 
   AppSettings copyWith({
@@ -25,6 +27,7 @@ class AppSettings extends Equatable {
     int? categoryCDelay,
     int? categoryDDelay,
     String? timeFormat,
+    Locale? locale,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -33,6 +36,7 @@ class AppSettings extends Equatable {
       categoryCDelay: categoryCDelay ?? this.categoryCDelay,
       categoryDDelay: categoryDDelay ?? this.categoryDDelay,
       timeFormat: timeFormat ?? this.timeFormat,
+      locale: locale ?? this.locale,
     );
   }
 
@@ -44,5 +48,6 @@ class AppSettings extends Equatable {
         categoryCDelay,
         categoryDDelay,
         timeFormat,
+        locale,
       ];
 }

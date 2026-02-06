@@ -37,3 +37,12 @@ class UpdateTimeFormatEvent extends SettingsEvent {
   @override
   List<Object?> get props => [format];
 }
+
+class UpdateLocaleEvent extends SettingsEvent {
+  final Locale locale;
+
+  const UpdateLocaleEvent(this.locale);
+
+  @override
+  List<Object?> get props => [locale];
+}

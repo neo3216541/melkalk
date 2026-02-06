@@ -27,4 +27,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> updateTimeFormat(String format) async {
     await localDataSource.updateTimeFormat(format);
   }
+
+  @override
+  Future<void> updateLocale(Locale locale) async {
+    await localDataSource.updateLocale(locale);
+  }
 }

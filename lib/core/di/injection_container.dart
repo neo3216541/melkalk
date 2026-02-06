@@ -7,6 +7,7 @@ import '../../features/settings/data/repositories/settings_repository_impl.dart'
 import '../../features/settings/domain/repositories/settings_repository.dart';
 import '../../features/settings/domain/usecases/get_settings.dart';
 import '../../features/settings/domain/usecases/update_category_delay.dart';
+import '../../features/settings/domain/usecases/update_locale.dart';
 import '../../features/settings/domain/usecases/update_theme_mode.dart';
 import '../../features/settings/domain/usecases/update_time_format.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
@@ -21,6 +22,7 @@ Future<void> init() async {
       updateThemeMode: sl(),
       updateCategoryDelay: sl(),
       updateTimeFormat: sl(),
+      updateLocale: sl(),
     ),
   );
 
@@ -35,6 +37,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateThemeMode(sl()));
   sl.registerLazySingleton(() => UpdateCategoryDelay(sl()));
   sl.registerLazySingleton(() => UpdateTimeFormat(sl()));
+  sl.registerLazySingleton(() => UpdateLocale(sl()));
 
   // Use cases - MEL Calculator
   sl.registerLazySingleton(() => CalculateMelDates());

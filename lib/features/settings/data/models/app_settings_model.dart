@@ -9,6 +9,7 @@ class AppSettingsModel extends AppSettings {
     required super.categoryCDelay,
     required super.categoryDDelay,
     required super.timeFormat,
+    required super.locale,
   });
 
   factory AppSettingsModel.fromPreferences({
@@ -18,6 +19,7 @@ class AppSettingsModel extends AppSettings {
     required int? categoryCDelay,
     required int? categoryDDelay,
     required String? timeFormat,
+    required String? localeString,
   }) {
     ThemeMode themeMode;
     switch (themeModeString) {
@@ -41,6 +43,7 @@ class AppSettingsModel extends AppSettings {
       categoryCDelay: categoryCDelay ?? 10,
       categoryDDelay: categoryDDelay ?? 120,
       timeFormat: timeFormat ?? 'Hm',
+      locale: _parseLocale(localeString),
     );
   }
 
@@ -53,5 +56,24 @@ class AppSettingsModel extends AppSettings {
       case ThemeMode.system:
         return 'system';
     }
+  }
+
+  static String localeToString(Locale locale) {
+    if (locale.countryCode != null && locale.countryCode!.isNotEmpty) {
+      return '${locale.languageCode}_${locale.countryCode}';
+    }
+    return locale.languageCode;
+  }
+
+  static Locale _parseLocale(String? localeString) {
+    if (localeString == null || localeString.isEmpty) {
+      return const Locale('en');
+    }
+
+    final parts = localeString.split('_');
+    if (parts.length == 2) {
+      return Locale(parts[0], parts[1]);
+    }
+    return Locale(localeString);
   }
 }
