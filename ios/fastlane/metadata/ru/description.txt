@@ -1,0 +1,9 @@
+MEL calculator is a tool for the aircraft engineers. Its calculates the expire date (a,b,c,d category) of defected airplanes.
+
+
+You can configure categories manually. 
+
+You can use dark or light theme.
+
+Калькулятор молярной массы веществ.
+Поддерживает химические формулы любой сложности.

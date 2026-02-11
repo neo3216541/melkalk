@@ -1,0 +1,44 @@
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Upload only metadata to App Store"
+  lane :metadata do
+
+    app_store_connect_api_key(
+      key_id: "34V5LQAYUR",
+      issuer_id: "dded258b-e67d-4977-b7c0-1035d0747872",
+      key_filepath: "fastlane/api_key/AuthKey_34V5LQAYUR.p8",
+      duration: 1200,
+      in_house: false
+    )
+
+    deliver(
+      app_identifier: "com.spotolcom.melkalk",
+       skip_binary_upload: true,
+       skip_screenshots: true,
+       skip_metadata: false,
+       force: true,
+       submit_for_review: false,
+       automatic_release: false,
+       run_precheck_before_submit: false
+    )
+  end
+
+
+  desc "Full release (build + upload)"
+  lane :release do
+
+    app_store_connect_api_key(
+      key_id: "34V5LQAYUR",
+      issuer_id: "dded258b-e67d-4977-b7c0-1035d0747872",
+      key_filepath: "fastlane/api_key/AuthKey_34V5LQAYUR.p8"
+    )
+
+    increment_build_number(xcodeproj: "Runner.xcodeproj")
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+
+    upload_to_app_store
+  end
+
+end
