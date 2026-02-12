@@ -13,23 +13,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-## iOS
-
-### ios metadata
+### store_page
 
 ```sh
-[bundle exec] fastlane ios metadata
+[bundle exec] fastlane store_page
 ```
 
-Upload only metadata to App Store
-
-### ios release
-
-```sh
-[bundle exec] fastlane ios release
-```
-
-Full release (build + upload)
+Update App Store page (metadata + screenshots + preview video)
 
 ----
 
